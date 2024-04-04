@@ -20,3 +20,26 @@
     <button class="btn">Add transaction</button>
   </form>
 </template>
+
+<script setup>
+import { ref } from "vue";
+import { useToast } from "vue-toastification";
+const toast = useToast();
+
+const text = ref("");
+const amount = ref("");
+const emit = defineEmits(["transactionSubmitted"]);
+const onSubmit = () => {
+  if (!text.value || !amount.value) {
+    toast.error("Both fields must be filled");
+  }
+
+  const transactionData = {
+    text: text.value,
+    amont: parseFloat(amount.value),
+  };
+  emit("transactionSubmitted", transactionData);
+  text.value = "";
+  amount.value = "";
+};
+</script>
